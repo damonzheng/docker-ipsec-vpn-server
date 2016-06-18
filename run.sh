@@ -49,7 +49,7 @@ echo 'Trying to auto discover IPs of this server...'
 PUBLIC_IP=${VPN_PUBLIC_IP:-''}
 
 # Try to auto discover server IPs
-[ -z "$PUBLIC_IP" ] && PUBLIC_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+[ -z "$PUBLIC_IP" ] && PUBLIC_IP=$(dig +short ip.cn @114.114.114.114)
 [ -z "$PUBLIC_IP" ] && PUBLIC_IP=$(wget -t 3 -T 15 -qO- http://ipv4.icanhazip.com)
 PRIVATE_IP=$(ip -4 route get 1 | awk '{print $NF;exit}')
 [ -z "$PRIVATE_IP" ] && PRIVATE_IP=$(ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*')
@@ -106,8 +106,8 @@ conn xauth-psk
   auto=add
   leftsubnet=0.0.0.0/0
   rightaddresspool=192.168.43.10-192.168.43.250
-  modecfgdns1=8.8.8.8
-  modecfgdns2=8.8.4.4
+  modecfgdns1=192.168.10.1
+  #modecfgdns2=8.8.4.4
   leftxauthserver=yes
   rightxauthclient=yes
   leftmodecfgserver=yes
@@ -145,8 +145,8 @@ EOF
 cat > /etc/ppp/options.xl2tpd <<EOF
 ipcp-accept-local
 ipcp-accept-remote
-ms-dns 8.8.8.8
-ms-dns 8.8.4.4
+ms-dns 192.168.10.1
+#ms-dns 8.8.4.4
 noccp
 auth
 crtscts
